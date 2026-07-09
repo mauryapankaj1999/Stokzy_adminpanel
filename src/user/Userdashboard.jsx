@@ -11,21 +11,14 @@
 //   useEffect(() => { checkCourse(); }, []);
 //   const {data,isLoading,} = useUserDashboard();
 //   const dashboard = data?.data;
-
 // console.log(dashboard, "user dashboard data");
-
-
-
 //   const checkCourse = async () => {
 //     try {
 //       const res = await getMyCourses();
-
 //       console.log(res);
-
 //       if (res.data && res.data.length > 0) {
 //         setHasCourse(true);
 //       }
-
 //       setLoading(false);
 //     } catch (error) {
 //       console.log(error);
@@ -73,11 +66,7 @@
 import React from "react";
 import { useUserDashboard } from "../hooks/useUsers";
 
-// ============================================================
-// STOKZY — User Dashboard
-// Stats styled like a market ticker (monospace figures, thin
-// green rule) since this is a trading-education platform.
-// ============================================================
+
 
 // const API_BASE = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
 const API_BASE = import.meta.env.VITE_API_BASE_URL || "https://stokzy-backend.onrender.com";
