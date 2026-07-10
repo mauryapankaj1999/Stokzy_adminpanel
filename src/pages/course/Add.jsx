@@ -185,7 +185,7 @@ export default function AddCourses() {
 
               if (file) {
                 setThumbnailPreview(
-                  `http://localhost:5000${courseData.data.thumbnail}`,
+                  `https://stokzy-backend.onrender.com/${courseData.data.thumbnail}`,
                 );
               }
             }}

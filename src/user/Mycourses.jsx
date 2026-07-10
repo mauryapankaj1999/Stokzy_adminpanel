@@ -2,8 +2,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useMyCourses } from "../hooks/useCourses";
 
-// const IMAGE_URL = "http://localhost:5000";
-const IMAGE_URL = "https://stokzy-backend.onrender.com";
+const IMAGE_URL = "http://localhost:5000";
+// const IMAGE_URL = "https://stokzy-backend.onrender.com";
 
 export default function Mycourses() {
   const { data, isLoading } = useMyCourses();

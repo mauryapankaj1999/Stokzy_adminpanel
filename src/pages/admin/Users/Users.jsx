@@ -106,7 +106,7 @@ import {
   useUpdateUser,
   useUserPurchaseDetails,
   useUsers,
-} from "../../../hooks/useUsers";
+} from "../../../hooks/useUsers"; 
 import { useState } from "react";
 import { BsEye } from "react-icons/bs";
 // import { useUsers } from "../../hooks/useUsers";

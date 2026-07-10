@@ -44,3 +44,13 @@ export const getUserPurchaseDetails = async (userId) => {
   const response = await axiosInstance.get(`/users/${userId}/details`);
   return response.data;
 };
+
+export const getContactList = async () => {
+  const response = await axiosInstance.get(`/contact`);
+  return response.data;
+};
+
+export const deleteContact = async (id) => {
+  const response = await axiosInstance.delete(`/contact/${id}`);
+  return response.data;
+};

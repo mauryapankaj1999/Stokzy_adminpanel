@@ -3,8 +3,10 @@ import { Navigate, useNavigate } from "react-router-dom";
 import { loginUser } from "../services/authService";
 import { showError } from "../utils/toast";
 import { useState } from "react";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Login = () => {
+  const [showpass, setShowpass] = useState(false);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
@@ -76,17 +78,13 @@ const Login = () => {
               className="w-32 mx-auto mb-5"
             />
 
-            <p className="mt-2 text-gray-500">
-              Login to access your dashboard
-            </p>
+            <p className="mt-2 text-gray-500">Login to access your dashboard</p>
           </div>
 
           <form onSubmit={handleSubmit(onSubmit)} className="mt-8 space-y-5">
             {/* Email */}
             <div>
-              <label className="block text-sm font-medium mb-2">
-                Email
-              </label>
+              <label className="block text-sm font-medium mb-2">Email</label>
 
               <input
                 type="email"
@@ -110,23 +108,25 @@ const Login = () => {
 
             {/* Password */}
             <div>
-              <label className="block text-sm font-medium mb-2">
-                Password
-              </label>
+              <label className="block text-sm font-medium mb-2">Password</label>
 
-              <input
-                type="password"
-                placeholder="Enter your password"
-                {...register("password", {
-                  required: "Password is required",
-                  minLength: {
-                    value: 6,
-                    message: "Password must be at least 6 characters",
-                  },
-                })}
-                className="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none focus:border-green-500"
-              />
-
+              <div className="relative flex items-center">
+                <input
+                  type={showpass ? "text" : "password"}
+                  placeholder="Enter your password"
+                  {...register("password", {
+                    required: "Password is required",
+                    minLength: {
+                      value: 6,
+                      message: "Password must be at least 6 characters",
+                    },
+                  })}
+                  className="w-full pr-10 rounded-xl border border-gray-300 px-4 py-3 outline-none focus:border-green-500"
+                />
+                <div className="absolute right-3 cursor-pointer" onClick={() => setShowpass(!showpass)}>
+                  {showpass ? <FaEye /> : <FaEyeSlash />}
+                </div>
+              </div>
               {errors.password && (
                 <p className="text-red-500 text-sm mt-1">
                   {errors.password.message}

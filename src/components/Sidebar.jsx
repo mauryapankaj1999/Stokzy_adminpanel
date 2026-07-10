@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { IoBookOutline, IoClose, IoSettingsOutline } from "react-icons/io5";
 import { MdOutlineDashboard } from "react-icons/md";
 import { AiOutlineProduct } from "react-icons/ai";
@@ -49,6 +49,11 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
     {
       name: "User Enrollments",
       path: "/uer-enrollments",
+      icon: <IoBookOutline />,
+    },
+    {
+      name: "Website contact",
+      path: "/contact",
       icon: <IoBookOutline />,
     },
   ];
@@ -127,14 +132,20 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
           <ul>
             {sidebarItems.map((item) => (
               <li key={item.name}>
-                <Link
+                <NavLink
                   to={item.path}
                   onClick={() => setSidebarOpen(false)}
-                  className="text-sm border-b border-gray-200 flex items-center p-2 hover:bg-gray-100"
+                  className={({ isActive }) =>
+                    `text-sm border-b border-gray-200 flex items-center p-2 transition-colors ${
+                      isActive
+                        ? "bg-green-100 text-green-600 font-medium border-l-4 border-none"
+                        : "hover:bg-gray-100 text-black"
+                    }`
+                  }
                 >
                   {item.icon}
                   <span className="ml-2">{item.name}</span>
-                </Link>
+                </NavLink>
               </li>
             ))}
           </ul>
