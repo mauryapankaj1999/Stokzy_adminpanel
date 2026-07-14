@@ -71,6 +71,9 @@ export default function AddCourses() {
       if (data.thumbnail?.[0]) {
         formData.append("thumbnail", data.thumbnail[0]);
       }
+      if (videoType === "upload" && data.videoFile?.[0]) {
+        formData.append("videoFile", data.videoFile[0]);
+      }
 
       // Debug
       for (let pair of formData.entries()) {
@@ -91,6 +94,7 @@ export default function AddCourses() {
       reset();
       setDescription("");
       setThumbnailPreview("");
+      setVideoType("url");
 
       navigate("/courses");
     } catch (error) {
@@ -110,20 +114,13 @@ export default function AddCourses() {
         duration: courseData.data.duration,
         level: courseData.data.level,
         status: courseData.data.status,
-        videoUrl: courseData.data.videoUrl,
+        // videoUrl: courseData.data.videoUrl,
+        videoFile: null,
       });
 
       setDescription(courseData.data.description);
-
-      //   const file = e.target.files[0];
-
-      // if (file) {
-      //   setThumbnailPreview(
-      //     URL.createObjectURL(file)
-      //   );
-      // }
-
       setVideoType(courseData.data.videoType || "url");
+      setThumbnailPreview(courseData.data.thumbnail);
     }
   }, [id, courseData, reset]);
   return (
@@ -180,13 +177,21 @@ export default function AddCourses() {
             register={register}
             error={errors.thumbnail}
             accept="image/*"
+            // onChange={(e) => {
+            //   const file = e.target.files[0];
+
+            //   if (file) {
+            //     setThumbnailPreview(
+            //       `https://stokzy-backend.onrender.com/${courseData.data.thumbnail}`,
+            //     );
+            //   }
+            // }}
+
             onChange={(e) => {
-              const file = e.target.files[0];
+              const file = e.target.files?.[0];
 
               if (file) {
-                setThumbnailPreview(
-                  `https://stokzy-backend.onrender.com/${courseData.data.thumbnail}`,
-                );
+                setThumbnailPreview(URL.createObjectURL(file));
               }
             }}
           />
