@@ -4,8 +4,8 @@ import { useMyCourseDetails } from "../hooks/useCourses";
 import { useModules } from "../hooks/useModules";
 import { FaChevronDown } from "react-icons/fa";
 
-const BASE_URL = "http://localhost:5000";
-// const BASE_URL = "https://stokzy-backend.onrender.com";
+// const BASE_URL = "http://localhost:5000";
+const BASE_URL = "https://stokzy-backend.onrender.com";
 
 const handleDownload = async (url, filename) => {
   try {

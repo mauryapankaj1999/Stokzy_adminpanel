@@ -68,8 +68,8 @@ import { useUserDashboard } from "../hooks/useUsers";
 
 
 
-const API_BASE = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
-// const API_BASE = import.meta.env.VITE_API_BASE_URL || "https://stokzy-backend.onrender.com";
+// const API_BASE = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
+const API_BASE = import.meta.env.VITE_API_BASE_URL || "https://stokzy-backend.onrender.com";
 
 const statusStyles = {
   paid: "bg-[#57a846]/10 text-[#3d7a31] border-[#57a846]/30",
