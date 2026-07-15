@@ -1,4 +1,3 @@
-
 import { useForm } from "react-hook-form";
 import Input from "../../components/common/Input";
 import HeadingSection from "../../components/HeadingSection";
@@ -17,11 +16,31 @@ export default function AddBlog() {
   const navigate = useNavigate();
   const { id } = useParams();
 
-  const { mutateAsync: createBlogMutation, isPending } = useCreateBlog();
+  // const { mutateAsync: createBlogMutation, isPending } = useCreateBlog();
 
-  const { mutateAsync: updateBlogMutation } = useUpdateBlog();
+  // const { mutateAsync: updateBlogMutation } = useUpdateBlog();
+  const { mutateAsync: createBlogMutation, isPending: createPending } =
+    useCreateBlog();
 
-  const {register,  handleSubmit,  reset, formState: { errors },} = useForm();
+  const { mutateAsync: updateBlogMutation, isPending: updatePending } =
+    useUpdateBlog();
+
+  const isPending = createPending || updatePending;
+
+  // const {
+  //   register,
+  //   handleSubmit,
+  //   reset,
+  //   formState: { errors },
+  // } = useForm();
+
+
+  const {
+  register,
+  handleSubmit,
+  reset,
+  formState: { errors },
+} = useForm();
 
   // Edit Mode Data Fetch
   useEffect(() => {
@@ -48,138 +67,147 @@ export default function AddBlog() {
     }
   }, [id, reset]);
 
-//   const onSubmit = async (data) => {
-//     try {
-     
-//       // let image = preview || "";
+  //   const onSubmit = async (data) => {
+  //     try {
 
-//       // if (data.image?.[0]) {
-//       //   image = await convertToBase64(data.image[0]);
-//       // }
+  //       // let image = preview || "";
 
-//       // const payload = {
-//       //   title: data.title,
-//       //   slug: data.slug,
-//       //   description,
-//       //   image,
-//       //   status: "active",
-//       // };
-//       const formData = new FormData();
+  //       // if (data.image?.[0]) {
+  //       //   image = await convertToBase64(data.image[0]);
+  //       // }
 
-// formData.append(
-//   "title",
-//   data.title
-// );
+  //       // const payload = {
+  //       //   title: data.title,
+  //       //   slug: data.slug,
+  //       //   description,
+  //       //   image,
+  //       //   status: "active",
+  //       // };
+  //       const formData = new FormData();
 
-// formData.append(
-//   "slug",
-//   data.slug
-// );
+  // formData.append(
+  //   "title",
+  //   data.title
+  // );
 
-// formData.append(
-//   "description",
-//   description
-// );
+  // formData.append(
+  //   "slug",
+  //   data.slug
+  // );
 
-// formData.append(
-//   "status",
-//   "active"
-// );
+  // formData.append(
+  //   "description",
+  //   description
+  // );
 
-// if (data.image?.[0]) {
-//   formData.append(
-//     "image",
-//     data.image[0]
-//   );
-// }
+  // formData.append(
+  //   "status",
+  //   "active"
+  // );
 
-//  for (let pair of formData.entries()) {
-//   console.log(
-//     pair[0],
-//     pair[1]
-//   );
-// }
+  // if (data.image?.[0]) {
+  //   formData.append(
+  //     "image",
+  //     data.image[0]
+  //   );
+  // }
 
-//       if (id) {
-//         await updateBlogMutation({
-//           id,
-//           data: formData,
-//         });
+  //  for (let pair of formData.entries()) {
+  //   console.log(
+  //     pair[0],
+  //     pair[1]
+  //   );
+  // }
 
-//         alert("Blog Updated Successfully");
+  //       if (id) {
+  //         await updateBlogMutation({
+  //           id,
+  //           data: formData,
+  //         });
 
-//         reset();
-//         setDescription("");
-//         setPreview("");
-//         navigate("/blogs");
-//       } else {
-//         await createBlogMutation(formData);
+  //         alert("Blog Updated Successfully");
 
-//         alert("Blog Created Successfully");
-//         // reset form
-//         reset();
-//         setDescription("");
-//         setPreview("");
+  //         reset();
+  //         setDescription("");
+  //         setPreview("");
+  //         navigate("/blogs");
+  //       } else {
+  //         await createBlogMutation(formData);
 
-//         // redirect
-//         navigate("/blogs");
-//       }
-//     } catch (error) {
-//       console.log(error);
-//     }
-//   };
+  //         alert("Blog Created Successfully");
+  //         // reset form
+  //         reset();
+  //         setDescription("");
+  //         setPreview("");
 
+  //         // redirect
+  //         navigate("/blogs");
+  //       }
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   };
 
+  const onSubmit = async (data) => {
+    try {
+      // if (!data.title) {
+      //   showError("Title is required");
+      //   return;
+      // }
 
+      // if (!data.slug) {
+      //   showError("Slug is required");
+      //   return;
+      // }
 
-const onSubmit = async (data) => {
-  try {
-    const formData = new FormData();
-   if (!data.title) {
-        showError("Title is required");
+      if (!description || description === "<p><br></p>") {
+        showError("Description is required");
         return;
       }
-    formData.append("title", data.title);
-    formData.append("slug", data.slug);
-    formData.append("description", description);
-    formData.append("status", "active");
 
-    if (data.image?.[0]) {
-      formData.append("image", data.image[0]);
+      const formData = new FormData();
+
+      formData.append("title", data.title);
+      formData.append("slug", data.slug);
+      formData.append("description", description);
+      formData.append("status", "active");
+
+      if (data.image?.[0]) {
+        formData.append("image", data.image[0]);
+      }
+
+      if (id) {
+        await updateBlogMutation({
+          id,
+          data: formData,
+        });
+
+        showSuccess("Blog Updated Successfully");
+
+        reset();
+        setDescription("");
+        setPreview("");
+        navigate("/blogs");
+      } else {
+        await createBlogMutation(formData);
+
+        showSuccess("Blog Created Successfully");
+
+        reset();
+        setDescription("");
+        setPreview("");
+        navigate("/blogs");
+      }
+    } catch (error) {
+      console.log(error);
+
+      showError(
+        error?.response?.data?.message ||
+        error?.message ||
+        "Something went wrong"
+      );
     }
-
-    if (id) {
-      await updateBlogMutation({
-        id,
-        data: formData,
-      });
-
-      showSuccess("Blog Updated Successfully");
-
-      reset();
-      setDescription("");
-      setPreview("");
-      navigate("/blogs");
-    } else {
-      await createBlogMutation(formData);
-
-      showSuccess("Blog Created Successfully");
-
-      reset();
-      setDescription("");
-      setPreview("");
-      navigate("/blogs");
-    }
-  } catch (error) {
-    console.log(error);
-
-    // showError(
-    //   error?.response?.data?.message ||
-    //   error?.message ||
-    //   "Something went wrong"
-    // );
-  }
-};
+  };
   return (
     <>
       <HeadingSection
@@ -195,7 +223,14 @@ const onSubmit = async (data) => {
             name="title"
             placeholder="Enter title"
             register={register}
-            error={errors.title}
+  validation={{
+    required: "Title is required",
+    minLength: {
+      value: 3,
+      message: "Title must be at least 3 characters",
+    },
+  }}
+  error={errors.title}
           />
 
           <div className="grid md:grid-cols-2 gap-4">
@@ -204,24 +239,35 @@ const onSubmit = async (data) => {
               name="slug"
               placeholder="blog-slug"
               register={register}
-              error={errors.slug}
+  validation={{
+    required: "Slug is required",
+    pattern: {
+      value: /^[a-z0-9-]+$/,
+      message:
+        "Slug can contain only lowercase letters, numbers and hyphens",
+    },
+  }}
+  error={errors.slug}
             />
 
             <Input
-              type="file"
-              label="Upload Image"
-              name="image"
-              register={register}
-              error={errors.image}
-              accept="image/*"
-              onChange={(e) => {
-                const file = e.target.files?.[0];
+  type="file"
+  label="Upload Image"
+  name="image"
+  register={register}
+  validation={{
+    required: !id ? "Image is required" : false,
+  }}
+  error={errors.image}
+  accept="image/*"
+  onChange={(e) => {
+    const file = e.target.files?.[0];
 
-                if (file) {
-                  setPreview(URL.createObjectURL(file));
-                }
-              }}
-            />
+    if (file) {
+      setPreview(URL.createObjectURL(file));
+    }
+  }}
+/>
           </div>
 
           {preview && (
